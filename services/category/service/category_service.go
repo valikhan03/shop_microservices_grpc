@@ -45,7 +45,7 @@ func (s *CategoryService) DeleteCategory(ctx context.Context, req *pb.DeleteCate
 func (s *CategoryService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.GetCategoryResponse, error){
 	category, err := s.repository.GetCategory(ctx, req.GetSlug())
 	res := &pb.GetCategoryResponse{
-		Category: &category,
+		Category: category,
 	}
 	return res, err
 }

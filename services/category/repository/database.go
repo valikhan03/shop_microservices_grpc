@@ -9,6 +9,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+
 type CategoryRepository struct {
 	database *sqlx.DB
 }
