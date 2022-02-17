@@ -21,7 +21,7 @@ func NewCategoryService(r repository.Repository) *CategoryService{
 func (s *CategoryService) CreateCategory(ctx context.Context, req *pb.CreateCategoryRequest) (*pb.CreateCategoryResponse, error){
 	category, err := s.repository.CreateCategory(ctx, req.ParentId, req.Name, req.Path)
 	res := &pb.CreateCategoryResponse{
-		Category: &category,
+		Category: category,
 	}
 	return res, err
 }
