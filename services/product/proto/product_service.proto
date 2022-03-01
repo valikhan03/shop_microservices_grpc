@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+option go_package = "pb";
+
+//PRODUCT
+message Product {
+    string Id = 1;
+    string Name = 2;
+    string Category = 3;
+    uint32 Price = 4;
+    string Path = 5;
+}
+
+//CREATE PRODUCT
+message CreateProductRequest{
+    string Name = 1;
+    string Category = 2;
+    uint32 Price = 3;
+    string Path = 4;
+}
+
+message CreateProductResponse {
+    Product Product = 1;
+}
+
+//UPDATE PRODUCT
+message UpdateProductRequest {
+    string Name = 1;
+    string Category = 2;
+    uint32 Price = 3;
+    string Path = 4;
+}
+
+message UpdateProductResponse {
+
+}
+
+//DELETE PRODUCT
+message DeleteProductRequest {
+
+}
+
+message DeleteProductResponse {
+
+}
+
+//GET PRODUCT
+message GetProductRequest {
+
+}
+
+message GetProductResponse {
+
+}
+
+//FIND PRODUCT
+message FindProductRequest {
+
+}
+
+message FindProductResponse {
+    
+}

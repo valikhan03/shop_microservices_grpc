@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+option go_package = ".;pb";
+
+//CATEGORY
+message Category{
+    string Slug = 1;
+    string ParentId = 2;
+    string Path = 3;
+    string Name = 4;
+    int32 Status = 5;
+}
+
+//CREATE CATEGORY
+message CreateCategoryRequest{
+    string ParentId = 1;
+    string Name = 2;
+    string Path = 3;
+}
+
+message CreateCategoryResponse{
+    Category Category = 1;
+}
+
+//UPDATE CATEGORY
+message UpdateCategoryRequest{
+    string Slug = 1;
+    string ParentId = 2;
+    string Path = 3;
+    string Name = 4;
+    int32 Status = 5;
+}
+
+message UpdateCategoryResponse{
+    int32 Status = 1;
+}
+
+//DELETE CATEGORY
+message DeleteCategoryRequest{
+    string Slug = 1;
+}
+
+message DeleteCategoryResponse{
+    int32 Status = 1;
+}
+
+//GET CATEGORY
+message GetCategoryRequest{
+    string Slug = 1;
+}
+
+message GetCategoryResponse{
+    Category Category = 1;
+}
+
+//FIND CATEGORY
+message FindCategoryRequest{
+    string Slug = 1;
+}
+
+message FindCategoryResponse{
+    repeated Category Category = 1;
+}
+
+//CATEGORY SERVICE
+service CategoryService {
+    rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryResponse) {
+        option (google.api.http) = {
+            post: "/api/category"
+        };
+    };
+
+    rpc UpdateCategory (UpdateCategoryRequest) returns (UpdateCategoryResponse) {
+        option (google.api.http) = {
+            put: "/api/category/{Slug}"
+        };
+    };
+
+    rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse){
+        option (google.api.http) = {
+            delete: "/api/category/{Slug}"
+        };
+    };
+
+    rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse){
+        option (google.api.http) = {
+            get: "/api/category/{Slug}"
+        };
+    };
+
+    rpc FindCategory (FindCategoryRequest) returns (FindCategoryResponse){
+        option (google.api.http) = {
+            get: "/api/category"
+        };
+    };
+}
