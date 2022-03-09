@@ -20,67 +20,79 @@ func NewCategoryRepository(db *sqlx.DB) *CategoryRepository {
 	}
 }
 
-func (r *CategoryRepository) CreateCategory(ctx context.Context, parent_id string, name string, path string) (*pb.Category, error) {
-	var category = new(pb.Category)
-	tx, err := r.database.BeginTx(ctx, &sql.TxOptions{})
-	if err != nil {
+func (r *CategoryRepository) CreateCategory(ctx context.Context, parent_id int32, name string) (*pb.Category, error){
+	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
+	if err != nil{
 		log.Println(err)
 		return nil, err
 	}
 
-	_, err = tx.ExecContext(ctx, "insert into  category () values ()")
-	if err != nil {
+	rows, err := tx.Query("INSERT INTO category (name, parent_id) VALUES ($1, $2) RETURNING id", name, parent_id)
+	if err != nil{
 		log.Println(err)
 		return nil, err
+	}
+
+	var id int32
+	err = rows.Scan(&id)
+	if err != nil{
+		log.Fatal(err)
+	}
+
+	category := &pb.Category{
+		ID: id,
+		Name: name,
+		ParentID: parent_id,
 	}
 
 	return category, nil
 }
 
-func (r *CategoryRepository) UpdateCategory(ctx context.Context, slug string, parent_id string, path string, name string, status int32) (int32, error) {
-	tx, err := r.database.BeginTx(ctx, &sql.TxOptions{})
-	if err != nil {
+func (r *CategoryRepository) UpdateCategory(ctx context.Context, id int32, name string, parent_id int32) (error){
+	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
+	if err != nil{
 		log.Println(err)
-		return 0, err
+		return err
 	}
-	_, err = tx.Exec("update")
-	if err != nil {
+
+	_, err = tx.Exec("UPADTE category SET name=$1, parent_id=$2 WHERE id=$3", name, parent_id, id)
+	if err != nil{
 		log.Println(err)
-		return 0, err
+		return err
 	}
-	return 1, nil
+
+	return nil
 }
 
-func (r *CategoryRepository) DeleteCategory(ctx context.Context, slug string) (int32, error) {
-	tx, err := r.database.BeginTx(ctx, &sql.TxOptions{})
-	if err != nil {
+func (r *CategoryRepository) DeleteCategory(ctx context.Context, name string) (error){
+	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
+	if err != nil{
 		log.Println(err)
-		return 0, err
+		return err
 	}
-	_, err = tx.Exec("delete from category where slug=$1", slug)
-	if err != nil {
+
+	_, err = tx.Exec("DELETE FROM category WHERE name=$1", name)
+	if err != nil{
 		log.Println(err)
-		return 0, err
+		return err
 	}
-	return 1, err
+
+	return nil
 }
 
-func (r *CategoryRepository) GetCategory(ctx context.Context, slug string) (*pb.Category, error) {
-	var category = new(pb.Category)
-	err := r.database.Get(category, "select * from category where slug=$1", slug)
-	if err != nil {
+func (r *CategoryRepository) GetAllCategories(ctx context.Context) ([]*pb.Category, error){
+	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
+	if err != nil{
 		log.Println(err)
 		return nil, err
-	}
-	return category, nil
-}
-
-func (r *CategoryRepository) FindCategory(ctx context.Context, slug string) ([]*pb.Category, error) {
+	}	
 	var categories []*pb.Category
-	err := r.database.Select(categories, "select * from category where slug like %$1%", slug)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-	return categories, err
+	err = tx.Select(&categories, "SELECT * FROM category WHERE parent_id=NULL")
+	
+
+	return nil, nil
+}
+
+func (r *CategoryRepository) GetSubCategories(ctx context.Context, name string) ([]*pb.Category, error){
+	return nil, nil
 }

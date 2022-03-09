@@ -6,9 +6,9 @@ import(
 )
 
 type Repository interface{
-	CreateCategory(ctx context.Context, parent_id string, name string, path string) (*pb.Category, error)
-	UpdateCategory(ctx context.Context, slug string, parent_id string, path string, name string, status int32) (int32, error)
-	DeleteCategory(ctx context.Context, slug string) (int32, error)
-	GetCategory(ctx context.Context, slug string) (*pb.Category, error)
-	FindCategory(ctx context.Context, slug string) ([]*pb.Category, error)
+	CreateCategory(ctx context.Context, parent_id int32, name string) (*pb.Category, error)
+	UpdateCategory(ctx context.Context, id int32, name string, parent_id int32) (error)
+	DeleteCategory(ctx context.Context, name string) (error)
+	GetAllCategories(ctx context.Context) ([]*pb.Category, error)
+	GetSubCategories(ctx context.Context, name string) ([]*pb.Category, error)
 }

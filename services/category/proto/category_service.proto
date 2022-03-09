@@ -4,22 +4,21 @@ package proto;
 
 import "google/api/annotations.proto";
 
-option go_package = "/pb";
+option go_package="/pb";
 
-//CATEGORY
-message Category{
-    string Slug = 1;
-    string ParentId = 2;
-    string Path = 3;
-    string Name = 4;
-    int32 Status = 5;
+message Category {
+    int32 ID = 1;
+    string Name = 2;
+    int32 ParentID = 3;
+}
+
+message Empty {
 }
 
 //CREATE CATEGORY
 message CreateCategoryRequest{
-    string ParentId = 1;
-    string Name = 2;
-    string Path = 3;
+    string Name = 1;
+    int32 ParentID = 2;
 }
 
 message CreateCategoryResponse{
@@ -28,41 +27,47 @@ message CreateCategoryResponse{
 
 //UPDATE CATEGORY
 message UpdateCategoryRequest{
-    string Slug = 1;
-    string ParentId = 2;
-    string Path = 3;
-    string Name = 4;
-    int32 Status = 5;
+    Category Category = 1;
 }
 
 message UpdateCategoryResponse{
-    int32 Status = 1;
+    Category Category = 1;
 }
 
 //DELETE CATEGORY
 message DeleteCategoryRequest{
-    string Slug = 1;
+    string Name = 1;
 }
 
 message DeleteCategoryResponse{
-    int32 Status = 1;
+    string Result = 1;
 }
 
 //GET CATEGORY
 message GetCategoryRequest{
-    string Slug = 1;
+    string Name = 1;
 }
 
 message GetCategoryResponse{
     Category Category = 1;
 }
 
-//FIND CATEGORY
-message FindCategoryRequest{
-    string Slug = 1;
+
+//GET ALL CATEGORIES
+message GetAllCategoriesRequest {
+    Empty empty = 1;
 }
 
-message FindCategoryResponse{
+message GetAllCategoriesResponse {
+    repeated Category Category = 1;
+}
+
+//GET SUB-CATEGORIES
+message GetSubCategoriesRequest{
+    string Name = 1;
+}
+
+message GetSubCategoriesResponse{
     repeated Category Category = 1;
 }
 
@@ -70,31 +75,31 @@ message FindCategoryResponse{
 service CategoryService {
     rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryResponse) {
         option (google.api.http) = {
-            post: "api/category"
+            post: "/api/category"
         };
     };
 
     rpc UpdateCategory (UpdateCategoryRequest) returns (UpdateCategoryResponse) {
         option (google.api.http) = {
-            put: "api/category/{Slug}"
+            put: "/api/category/{Name}"
         };
     };
 
     rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse){
         option (google.api.http) = {
-            delete: "api/category/{Slug}"
+            delete: "/api/category/{Name}"
         };
     };
 
-    rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse){
+    rpc GetAllCategories (GetAllCategoriesRequest) returns (GetAllCategoriesResponse){
         option (google.api.http) = {
-            get: "api/category/{Slug}"
+            get: "/api/category"
         };
     };
 
-    rpc FindCategory (FindCategoryRequest) returns (FindCategoryResponse){
+    rpc GetSubCategories (GetSubCategoriesRequest) returns (GetSubCategoriesResponse){
         option (google.api.http) = {
-            get: "api/category"
+            get: "/api/category/{Name}"
         };
     };
 }

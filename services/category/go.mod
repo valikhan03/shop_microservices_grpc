@@ -3,6 +3,7 @@ module category_service
 go 1.16
 
 require (
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/joho/godotenv v1.4.0

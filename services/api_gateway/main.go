@@ -20,8 +20,11 @@ import (
 
 func main() {
 	var router = runtime.NewServeMux()
-	godotenv.Load("services.env")
-
+	
+	err := godotenv.Load("services.env")
+	if err != nil{
+		log.Fatal(err)
+	}
 
 	var categoryServiceAddr = fmt.Sprintf("%s:%s", os.Getenv("CATEGORY_SERVICE_HOST"), os.Getenv("CATEGORY_SERVICE_PORT"))
 

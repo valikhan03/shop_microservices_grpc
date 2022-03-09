@@ -1,11 +1,10 @@
 package service
 
-import(
-	"context"
-
+import (
 	"category_service/pb"
 	"category_service/repository"
-	
+	"context"
+	"fmt"
 )
 
 type CategoryService struct{
@@ -19,41 +18,56 @@ func NewCategoryService(r repository.Repository) *CategoryService{
 }
 
 func (s *CategoryService) CreateCategory(ctx context.Context, req *pb.CreateCategoryRequest) (*pb.CreateCategoryResponse, error){
-	category, err := s.repository.CreateCategory(ctx, req.ParentId, req.Name, req.Path)
+	category, err := s.repository.CreateCategory(ctx, req.GetParentID(), req.GetName())
+	if err != nil{
+		return nil, err
+	}
+
 	res := &pb.CreateCategoryResponse{
 		Category: category,
 	}
-	return res, err
+
+	return res, nil
 }
 
 func (s *CategoryService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.UpdateCategoryResponse, error){
-	status, err := s.repository.UpdateCategory(ctx, req.GetSlug(), req.GetParentId(), req.GetPath(), req.GetName(), req.GetStatus())
-	res := &pb.UpdateCategoryResponse{
-		Status: status,
+	err := s.repository.UpdateCategory(ctx, req.Category.ID, req.Category.Name, req.Category.ParentID)
+	if err != nil{
+		return nil, err
 	}
-	return res, err
+
+	res := &pb.UpdateCategoryResponse{Category: req.Category}
+	return res, nil
 }
 
 func (s *CategoryService) DeleteCategory(ctx context.Context, req *pb.DeleteCategoryRequest) (*pb.DeleteCategoryResponse, error){
-	status, err := s.repository.DeleteCategory(ctx, req.GetSlug())
-	res := &pb.DeleteCategoryResponse{
-		Status: status,
+	err := s.repository.DeleteCategory(ctx, req.GetName())
+	if err != nil{
+		return nil, err
 	}
+
+	res := &pb.DeleteCategoryResponse{ Result: fmt.Sprintf("Category %s deleted", req.GetName())}
 	return res, err
 }
 
-func (s *CategoryService) GetCategory(ctx context.Context, req *pb.GetCategoryRequest) (*pb.GetCategoryResponse, error){
-	category, err := s.repository.GetCategory(ctx, req.GetSlug())
-	res := &pb.GetCategoryResponse{
-		Category: category,
+func (s *CategoryService) GetAllCategories(ctx context.Context, req *pb.GetAllCategoriesRequest) (*pb.GetAllCategoriesResponse, error){
+	categories, err := s.repository.GetAllCategories(ctx)
+	if err != nil{
+		return nil, err
 	}
-	return res, err
-}
-
-func (s *CategoryService) FindCategory(ctx context.Context, req *pb.FindCategoryRequest) (*pb.FindCategoryResponse, error){
-	categories, err := s.repository.FindCategory(ctx, req.GetSlug())
-	res := &pb.FindCategoryResponse{
+	res := &pb.GetAllCategoriesResponse{
 		Category: categories,
 	}
+
+	return res, nil
+}
+
+func (s *CategoryService) GetSubCategories(ctx context.Context, req *pb.GetSubCategoriesRequest) (*pb.GetSubCategoriesResponse, error){
+	categories, err := s.repository.GetSubCategories(ctx, req.GetName())
+	if err != nil{
+		return nil, err
+	}
+
+	res := &pb.GetSubCategoriesResponse{ Category: categories }
 	return res, err
 }
