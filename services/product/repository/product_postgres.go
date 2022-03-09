@@ -9,6 +9,7 @@ import (
 
 type ProductRepository struct {
 	db *sqlx.DB
+	c *sqlx.Conn
 }
 
 func NewProductRepository(db *sqlx.DB) *ProductRepository {
@@ -86,7 +87,7 @@ func (r *ProductRepository) GetProduct(slug string) (*pb.Product, error) {
 
 func (r *ProductRepository) SearchProduct(filter pb.Filter, escape_id int64) (*pb.Product, error) {
 	var product Product
-	query := "SELECT * FROM products WHERE name LIKE '%$1%' AND category=$2 AND price<=$3 AND price>=$4 AND id>$5 LIMIT 1"
+	query := "SELECT * FROM products WHERE name LIKE '%'||$1||'%' AND category=$2 AND price<=$3 AND price>=$4 AND id>$5 LIMIT 1"
 	row, err := r.db.Query(query, filter.Name, filter.Category, filter.MaxPrice, filter.MinPrice, escape_id)
 	if err != nil{
 		log.Println(err)
