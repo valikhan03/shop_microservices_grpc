@@ -1,20 +1,24 @@
 package service
 
-import(
+import (
 	"context"
 	"product_service/pb"
 	"product_service/repository"
 )
 
-type ProductService struct{
+type ProductService struct {
 	repository repository.Repository
 }
 
+func NewProductService(r repository.Repository) *ProductService {
+	return &ProductService{
+		repository: r,
+	}
+}
 
-
-func (s *ProductService) CreateProduct(ctx context.Context, req *pb.CreateProductRequest) (*pb.CreateProductResponse, error){
+func (s *ProductService) CreateProduct(ctx context.Context, req *pb.CreateProductRequest) (*pb.CreateProductResponse, error) {
 	product, err := s.repository.CreateProduct(req.Name, req.Category, req.Price, req.Slug)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -25,9 +29,9 @@ func (s *ProductService) CreateProduct(ctx context.Context, req *pb.CreateProduc
 	return res, nil
 }
 
-func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProductRequest) (*pb.UpdateProductResponse, error){
+func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProductRequest) (*pb.UpdateProductResponse, error) {
 	product, err := s.repository.ChangeProduct(req.Product.Id, req.Product.Name, req.Product.Category, req.Product.Price, req.Product.Slug)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -38,7 +42,7 @@ func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProduc
 	return res, nil
 }
 
-func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProductRequest) (*pb.DeleteProductResponse, error){
+func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProductRequest) (*pb.DeleteProductResponse, error) {
 	status := s.repository.DeleteProduct(req.Slug)
 	res := &pb.DeleteProductResponse{
 		Status: status,
@@ -47,9 +51,9 @@ func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProduc
 	return res, nil
 }
 
-func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.GetProductResponse, error){
+func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.GetProductResponse, error) {
 	product, err := s.repository.GetProduct(req.Slug)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -60,17 +64,18 @@ func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductReque
 	return res, nil
 }
 
-func (s *ProductService) SearchProduct(req *pb.SearchProductRequest, stream pb.ProductService_SearchProductServer) error{
+func (s *ProductService) SearchProduct(req *pb.SearchProductRequest, stream pb.ProductService_SearchProductServer) error {
 	var last_id int64 = 0
-	for{
+	for {
 		product, err := s.repository.SearchProduct(*req.GetFilter(), last_id)
-		if err != nil{
+		if err != nil {
 			return err
 		}
 		last_id = product.Id
-		err = stream.Send(&pb.SearchProductResponse{ Product: product})
-		if err != nil{
+		err = stream.Send(&pb.SearchProductResponse{Product: product})
+		if err != nil {
 			return err
 		}
 	}
 }
+

@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+option go_package = "/pb";
+
+//PRODUCT
+message Product {
+    int64 Id = 1;
+    string Name = 2;
+    string Category = 3;
+    uint32 Price = 4;
+    string Slug = 5;
+}
+
+//FILTER
+message Filter {
+    string Name = 1;
+    string Category = 2;
+    int32 MinPrice = 3;
+    int32 MaxPrice = 4;
+}
+
+//CREATE PRODUCT
+message CreateProductRequest{
+    string Name = 1;
+    string Category = 2;
+    uint32 Price = 3;
+    string Slug = 4;
+}
+
+message CreateProductResponse {
+    Product Product = 1;
+}
+
+//UPDATE PRODUCT
+message UpdateProductRequest {
+    Product Product = 1;
+}
+
+message UpdateProductResponse {
+    Product Product = 1;
+}
+
+//DELETE PRODUCT
+message DeleteProductRequest {
+    string Slug = 1;
+}
+
+message DeleteProductResponse {
+    bool Status = 1;
+}
+
+//GET PRODUCT
+message GetProductRequest {
+    string Slug = 1;
+}
+
+message GetProductResponse {
+    Product Product = 1;
+}
+
+//Search PRODUCT
+message SearchProductRequest {
+    Filter Filter = 1;
+}
+
+message SearchProductResponse {
+    Product Product = 1;
+}
+
+
+service ProductService{
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse){
+        option (google.api.http) = {
+            post: "/api/product/"
+        };
+    };
+
+    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse){
+        option (google.api.http) = {
+            post: "/api/products/{Slug}"
+        };
+    };
+
+    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse){
+        option (google.api.http) = {
+            delete: "/api/products/{Slug}"
+        };
+    };
+
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse){
+        option (google.api.http) = {
+            get: "/api/products/{Slug}"
+        };
+    };
+
+    rpc SearchProduct (SearchProductRequest) returns (stream SearchProductResponse){
+        option (google.api.http) = {
+            post: "/api/products/search"
+        };
+    };
+}

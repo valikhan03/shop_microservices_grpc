@@ -110,7 +110,6 @@ type ProductServiceServer interface {
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
 	SearchProduct(*SearchProductRequest, ProductService_SearchProductServer) error
-	mustEmbedUnimplementedProductServiceServer()
 }
 
 // UnimplementedProductServiceServer must be embedded to have forward compatible implementations.
