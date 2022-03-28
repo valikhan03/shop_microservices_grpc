@@ -18,12 +18,12 @@
   "paths": {
     "/api/category": {
       "get": {
-        "operationId": "CategoryService_FindCategory",
+        "operationId": "CategoryService_GetAllCategories",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/protoFindCategoryResponse"
+              "$ref": "#/definitions/protoGetAllCategoriesResponse"
             }
           },
           "default": {
@@ -33,14 +33,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "Slug",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
         "tags": [
           "CategoryService"
         ]
@@ -63,22 +55,12 @@
         },
         "parameters": [
           {
-            "name": "ParentId",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Path",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoCreateCategoryRequest"
+            }
           }
         ],
         "tags": [
@@ -88,12 +70,12 @@
     },
     "/api/category/{Slug}": {
       "get": {
-        "operationId": "CategoryService_GetCategory",
+        "operationId": "CategoryService_GetSubCategories",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/protoGetCategoryResponse"
+              "$ref": "#/definitions/protoGetSubCategoriesResponse"
             }
           },
           "default": {
@@ -167,29 +149,18 @@
             "type": "string"
           },
           {
-            "name": "ParentId",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Path",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Category": {
+                  "$ref": "#/definitions/protoCategory"
+                }
+              },
+              "title": "UPDATE CATEGORY"
+            }
           }
         ],
         "tags": [
@@ -202,24 +173,31 @@
     "protoCategory": {
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int32"
+        },
         "Slug": {
           "type": "string"
         },
-        "ParentId": {
+        "ParentID": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "protoCreateCategoryRequest": {
+      "type": "object",
+      "properties": {
+        "Slug": {
           "type": "string"
         },
-        "Path": {
-          "type": "string"
-        },
-        "Name": {
-          "type": "string"
-        },
-        "Status": {
+        "ParentID": {
           "type": "integer",
           "format": "int32"
         }
       },
-      "title": "CATEGORY"
+      "title": "CREATE CATEGORY"
     },
     "protoCreateCategoryResponse": {
       "type": "object",
@@ -232,13 +210,15 @@
     "protoDeleteCategoryResponse": {
       "type": "object",
       "properties": {
-        "Status": {
-          "type": "integer",
-          "format": "int32"
+        "Result": {
+          "type": "string"
         }
       }
     },
-    "protoFindCategoryResponse": {
+    "protoEmpty": {
+      "type": "object"
+    },
+    "protoGetAllCategoriesResponse": {
       "type": "object",
       "properties": {
         "Category": {
@@ -249,20 +229,22 @@
         }
       }
     },
-    "protoGetCategoryResponse": {
+    "protoGetSubCategoriesResponse": {
       "type": "object",
       "properties": {
         "Category": {
-          "$ref": "#/definitions/protoCategory"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoCategory"
+          }
         }
       }
     },
     "protoUpdateCategoryResponse": {
       "type": "object",
       "properties": {
-        "Status": {
-          "type": "integer",
-          "format": "int32"
+        "Category": {
+          "$ref": "#/definitions/protoCategory"
         }
       }
     },

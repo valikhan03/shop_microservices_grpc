@@ -21,8 +21,8 @@ type CategoryServiceClient interface {
 	CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
 	UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*UpdateCategoryResponse, error)
 	DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
-	GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*GetCategoryResponse, error)
-	FindCategory(ctx context.Context, in *FindCategoryRequest, opts ...grpc.CallOption) (*FindCategoryResponse, error)
+	GetAllCategories(ctx context.Context, in *GetAllCategoriesRequest, opts ...grpc.CallOption) (*GetAllCategoriesResponse, error)
+	GetSubCategories(ctx context.Context, in *GetSubCategoriesRequest, opts ...grpc.CallOption) (*GetSubCategoriesResponse, error)
 }
 
 type categoryServiceClient struct {
@@ -60,18 +60,18 @@ func (c *categoryServiceClient) DeleteCategory(ctx context.Context, in *DeleteCa
 	return out, nil
 }
 
-func (c *categoryServiceClient) GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*GetCategoryResponse, error) {
-	out := new(GetCategoryResponse)
-	err := c.cc.Invoke(ctx, "/proto.CategoryService/GetCategory", in, out, opts...)
+func (c *categoryServiceClient) GetAllCategories(ctx context.Context, in *GetAllCategoriesRequest, opts ...grpc.CallOption) (*GetAllCategoriesResponse, error) {
+	out := new(GetAllCategoriesResponse)
+	err := c.cc.Invoke(ctx, "/proto.CategoryService/GetAllCategories", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *categoryServiceClient) FindCategory(ctx context.Context, in *FindCategoryRequest, opts ...grpc.CallOption) (*FindCategoryResponse, error) {
-	out := new(FindCategoryResponse)
-	err := c.cc.Invoke(ctx, "/proto.CategoryService/FindCategory", in, out, opts...)
+func (c *categoryServiceClient) GetSubCategories(ctx context.Context, in *GetSubCategoriesRequest, opts ...grpc.CallOption) (*GetSubCategoriesResponse, error) {
+	out := new(GetSubCategoriesResponse)
+	err := c.cc.Invoke(ctx, "/proto.CategoryService/GetSubCategories", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -85,8 +85,8 @@ type CategoryServiceServer interface {
 	CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	UpdateCategory(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
 	DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error)
-	GetCategory(context.Context, *GetCategoryRequest) (*GetCategoryResponse, error)
-	FindCategory(context.Context, *FindCategoryRequest) (*FindCategoryResponse, error)
+	GetAllCategories(context.Context, *GetAllCategoriesRequest) (*GetAllCategoriesResponse, error)
+	GetSubCategories(context.Context, *GetSubCategoriesRequest) (*GetSubCategoriesResponse, error)
 	mustEmbedUnimplementedCategoryServiceServer()
 }
 
@@ -103,11 +103,11 @@ func (UnimplementedCategoryServiceServer) UpdateCategory(context.Context, *Updat
 func (UnimplementedCategoryServiceServer) DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
 }
-func (UnimplementedCategoryServiceServer) GetCategory(context.Context, *GetCategoryRequest) (*GetCategoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCategory not implemented")
+func (UnimplementedCategoryServiceServer) GetAllCategories(context.Context, *GetAllCategoriesRequest) (*GetAllCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllCategories not implemented")
 }
-func (UnimplementedCategoryServiceServer) FindCategory(context.Context, *FindCategoryRequest) (*FindCategoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindCategory not implemented")
+func (UnimplementedCategoryServiceServer) GetSubCategories(context.Context, *GetSubCategoriesRequest) (*GetSubCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSubCategories not implemented")
 }
 func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
 
@@ -176,38 +176,38 @@ func _CategoryService_DeleteCategory_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CategoryService_GetCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCategoryRequest)
+func _CategoryService_GetAllCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllCategoriesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CategoryServiceServer).GetCategory(ctx, in)
+		return srv.(CategoryServiceServer).GetAllCategories(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CategoryService/GetCategory",
+		FullMethod: "/proto.CategoryService/GetAllCategories",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).GetCategory(ctx, req.(*GetCategoryRequest))
+		return srv.(CategoryServiceServer).GetAllCategories(ctx, req.(*GetAllCategoriesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CategoryService_FindCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindCategoryRequest)
+func _CategoryService_GetSubCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSubCategoriesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CategoryServiceServer).FindCategory(ctx, in)
+		return srv.(CategoryServiceServer).GetSubCategories(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CategoryService/FindCategory",
+		FullMethod: "/proto.CategoryService/GetSubCategories",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).FindCategory(ctx, req.(*FindCategoryRequest))
+		return srv.(CategoryServiceServer).GetSubCategories(ctx, req.(*GetSubCategoriesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,12 +232,12 @@ var CategoryService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CategoryService_DeleteCategory_Handler,
 		},
 		{
-			MethodName: "GetCategory",
-			Handler:    _CategoryService_GetCategory_Handler,
+			MethodName: "GetAllCategories",
+			Handler:    _CategoryService_GetAllCategories_Handler,
 		},
 		{
-			MethodName: "FindCategory",
-			Handler:    _CategoryService_FindCategory_Handler,
+			MethodName: "GetSubCategories",
+			Handler:    _CategoryService_GetSubCategories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

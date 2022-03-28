@@ -4,7 +4,7 @@ package proto;
 
 import "google/api/annotations.proto";
 
-option go_package = "/pb";
+option go_package = "/pb/product_service";
 
 //PRODUCT
 message Product {
@@ -37,7 +37,8 @@ message CreateProductResponse {
 
 //UPDATE PRODUCT
 message UpdateProductRequest {
-    Product Product = 1;
+    string Slug = 1;
+    Product Product = 2;
 }
 
 message UpdateProductResponse {
@@ -75,13 +76,15 @@ message SearchProductResponse {
 service ProductService{
     rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse){
         option (google.api.http) = {
-            post: "/api/product/"
+            post: "/api/products"
+            body: "*"
         };
     };
 
     rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse){
         option (google.api.http) = {
             post: "/api/products/{Slug}"
+            body: "*"
         };
     };
 
@@ -100,6 +103,7 @@ service ProductService{
     rpc SearchProduct (SearchProductRequest) returns (stream SearchProductResponse){
         option (google.api.http) = {
             post: "/api/products/search"
+            body: "*"
         };
     };
 }

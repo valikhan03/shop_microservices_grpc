@@ -1,0 +1,358 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "product_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ProductService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/products": {
+      "post": {
+        "operationId": "ProductService_CreateProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoCreateProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Price",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "Slug",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ProductService"
+        ]
+      }
+    },
+    "/api/products/search": {
+      "post": {
+        "operationId": "ProductService_SearchProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/protoSearchProductResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of protoSearchProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Filter.Name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Filter.Category",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Filter.MinPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Filter.MaxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ProductService"
+        ]
+      }
+    },
+    "/api/products/{Slug}": {
+      "get": {
+        "operationId": "ProductService_GetProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoGetProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Slug",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ProductService"
+        ]
+      },
+      "delete": {
+        "operationId": "ProductService_DeleteProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoDeleteProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Slug",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ProductService"
+        ]
+      },
+      "post": {
+        "operationId": "ProductService_UpdateProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoUpdateProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Slug",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Product.Id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "Product.Name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Product.Category",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Product.Price",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "Product.Slug",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ProductService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protoCreateProductResponse": {
+      "type": "object",
+      "properties": {
+        "Product": {
+          "$ref": "#/definitions/protoProduct"
+        }
+      }
+    },
+    "protoDeleteProductResponse": {
+      "type": "object",
+      "properties": {
+        "Status": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protoFilter": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "MinPrice": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "MaxPrice": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "FILTER"
+    },
+    "protoGetProductResponse": {
+      "type": "object",
+      "properties": {
+        "Product": {
+          "$ref": "#/definitions/protoProduct"
+        }
+      }
+    },
+    "protoProduct": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "Price": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Slug": {
+          "type": "string"
+        }
+      },
+      "title": "PRODUCT"
+    },
+    "protoSearchProductResponse": {
+      "type": "object",
+      "properties": {
+        "Product": {
+          "$ref": "#/definitions/protoProduct"
+        }
+      }
+    },
+    "protoUpdateProductResponse": {
+      "type": "object",
+      "properties": {
+        "Product": {
+          "$ref": "#/definitions/protoProduct"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

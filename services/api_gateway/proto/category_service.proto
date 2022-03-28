@@ -4,11 +4,11 @@ package proto;
 
 import "google/api/annotations.proto";
 
-option go_package="/pb";
+option go_package="/pb/category_service";
 
 message Category {
     int32 ID = 1;
-    string Name = 2;
+    string Slug = 2;
     int32 ParentID = 3;
 }
 
@@ -17,7 +17,7 @@ message Empty {
 
 //CREATE CATEGORY
 message CreateCategoryRequest{
-    string Name = 1;
+    string Slug = 1;
     int32 ParentID = 2;
 }
 
@@ -27,7 +27,8 @@ message CreateCategoryResponse{
 
 //UPDATE CATEGORY
 message UpdateCategoryRequest{
-    Category Category = 1;
+    string Slug = 1;
+    Category Category = 2;
 }
 
 message UpdateCategoryResponse{
@@ -36,7 +37,7 @@ message UpdateCategoryResponse{
 
 //DELETE CATEGORY
 message DeleteCategoryRequest{
-    string Name = 1;
+    string Slug = 1;
 }
 
 message DeleteCategoryResponse{
@@ -45,7 +46,7 @@ message DeleteCategoryResponse{
 
 //GET CATEGORY
 message GetCategoryRequest{
-    string Name = 1;
+    string Slug = 1;
 }
 
 message GetCategoryResponse{
@@ -64,7 +65,7 @@ message GetAllCategoriesResponse {
 
 //GET SUB-CATEGORIES
 message GetSubCategoriesRequest{
-    string Name = 1;
+    string Slug = 1;
 }
 
 message GetSubCategoriesResponse{
@@ -76,18 +77,20 @@ service CategoryService {
     rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryResponse) {
         option (google.api.http) = {
             post: "/api/category"
+            body: "*"
         };
     };
 
     rpc UpdateCategory (UpdateCategoryRequest) returns (UpdateCategoryResponse) {
         option (google.api.http) = {
-            put: "/api/category/{Name}"
+            put: "/api/category/{Slug}"
+            body: "*"
         };
     };
 
     rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse){
         option (google.api.http) = {
-            delete: "/api/category/{Name}"
+            delete: "/api/category/{Slug}"
         };
     };
 
@@ -99,7 +102,7 @@ service CategoryService {
 
     rpc GetSubCategories (GetSubCategoriesRequest) returns (GetSubCategoriesResponse){
         option (google.api.http) = {
-            get: "/api/category/{Name}"
+            get: "/api/category/{Slug}"
         };
     };
 }

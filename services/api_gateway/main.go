@@ -6,72 +6,126 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
+
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
+	category_service "api_gw/pb/category_service" // Update
+)
+
+func run() error {
+	godotenv.Load("services.env")
+	var categoryServiceAddr = fmt.Sprintf("%s:%s", os.Getenv("CATEGORY_SERVICE_HOST"), os.Getenv("CATEGORY_SERVICE_PORT"))
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	err := category_service.RegisterCategoryServiceHandlerFromEndpoint(ctx, mux, categoryServiceAddr, opts)
+	if err != nil {
+		return err
+	}
+
+	return http.ListenAndServe(":8085", mux)
+}
+
+func main() {
+	err := run()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+/*package main
+
+import (
+	"context"
+	"fmt"
+
+	//"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+
+	//"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 
-	"github.com/gin-gonic/gin"
+	//"github.com/gin-gonic/gin"
 
-	//"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials/insecure"
 
-	"api_gw/pb/category_service"
+	"api_category_service/pb/category_service"
 )
-
 
 func main() {
 	var router = runtime.NewServeMux()
-	
+
 	err := godotenv.Load("services.env")
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	var categoryServiceAddr = fmt.Sprintf("%s:%s", os.Getenv("CATEGORY_SERVICE_HOST"), os.Getenv("CATEGORY_SERVICE_PORT"))
 
-
+	/*
 	grpcCategoryServiceConn, err := grpc.Dial(categoryServiceAddr, grpc.WithInsecure())
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Connected: ", categoryServiceAddr)
+
 	grpcCategoryServiceConn.Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Connected: ", categoryServiceAddr)
 	defer grpcCategoryServiceConn.Close()
+*/
 
-	err = category_service.RegisterCategoryServiceHandler(context.Background(), router, grpcCategoryServiceConn)
+/*
+	//err = category_service.RegisterCategoryServiceHandler(context.Background(), router, grpcCategoryServiceConn)
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	category_service.RegisterCategoryServiceHandlerFromEndpoint(context.Background(), router, categoryServiceAddr, opts)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	proxy_gin_router := gin.Default()
+	//proxy_gin_router := gin.Default()
+	//proxy_router := http.NewServeMux()
 
-	proxy_router := http.NewServeMux()
-	proxy_router.HandleFunc("/ping", ping)
+	/*
+		handlerFunc1 := http.HandlerFunc(func(resw http.ResponseWriter, req *http.Request) {
+			if strings.HasPrefix(req.URL.Path, "/api") {
+				router.ServeHTTP(resw, req)
+				return
+			}
+			proxy_router.ServeHTTP(resw, req)
+		})
+*/
 
 /*
-	handlerFunc1 := http.HandlerFunc(func(resw http.ResponseWriter, req *http.Request) {
+	handlerFunc2 := http.HandlerFunc(func(resw http.ResponseWriter, req *http.Request) {
 		if strings.HasPrefix(req.URL.Path, "/api") {
+			body, err := ioutil.ReadAll(req.Body)
+			if err != nil {
+				log.Println(err)
+			}
+			fmt.Println(string(body))
 			router.ServeHTTP(resw, req)
 			return
 		}
 		proxy_router.ServeHTTP(resw, req)
-	})
-*/
-	handlerFunc2 := http.HandlerFunc(func(resw http.ResponseWriter, req *http.Request) {
-		if strings.HasPrefix(req.URL.Path, "/api") {
-			router.ServeHTTP(resw, req)
-			return
-		}
-		proxy_gin_router.ServeHTTP(resw, req)
-	})
+	})*/
 
+/*
 	server := &http.Server{
-		Addr: "127.0.0.1:8085",
-		Handler: handlerFunc2,
+		Addr:    "127.0.0.1:8085",
+		Handler: router,
 	}
 	fmt.Println("PROXY started working")
 	err = server.ListenAndServe()
@@ -79,7 +133,4 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
-func ping(resw http.ResponseWriter, req *http.Request) {
-	resw.Write([]byte("WORKS"))
-}
+*/
