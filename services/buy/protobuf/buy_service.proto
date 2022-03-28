@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/api/annotations.proto";
+
+
+option go_package = "/pb";
+
+//BUYING
+message Buying{
+    string ProductLink = 1;
+    int32 Quantity = 2;
+}
+
+message Receipt{
+    repeated Buying Buyings = 1;
+    int32 Total = 2;
+}
+
+
+//ADD TO CART
+message AddToCartRequest{
+    string UserID = 1;
+    Buying Buying = 2;
+}
+
+message AddToCartResponse{
+    bool Status = 1;
+}
+
+
+//REMOVE FROM CART
+message RemoveFromCartRequest{
+    string UserID = 1;
+    Buying Buying = 2;
+}
+
+message RemoveFromCartResponse{
+    bool Status = 1;
+}
+
+
+//GET RECEIPT
+message GetReceiptRequest{
+    string UserID = 1;
+}
+
+message GetReceiptResponse{
+    Receipt Receipt = 1;
+}
+
+
+service BuyingService {
+    rpc AddToCart (AddToCartRequest) returns (AddToCartResponse) {
+        option (google.api.http) = {
+            post: "/api/buyings/cart"
+        };
+    };
+
+    rpc RemoveFromCart (RemoveFromCartRequest) returns (RemoveFromCartResponse) {
+        option (google.api.http) = {
+            delete: "/api/buyings/cart"
+        };
+    };
+
+    rpc GetReceipt (GetReceiptRequest) returns (GetReceiptResponse) {
+        option (google.api.http) = {
+            post: "/api/buyings/receipt"
+        };
+    };
+}

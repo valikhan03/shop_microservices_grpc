@@ -99,7 +99,7 @@ service ProductService{
 
     rpc SearchProduct (SearchProductRequest) returns (stream SearchProductResponse){
         option (google.api.http) = {
-            post: "/api/products/search"
+            get: "/api/products/search"
         };
     };
 }
