@@ -2,13 +2,12 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.19.1
-// source: proto/category_service.proto
+// source: category_service.proto
 
 package pb
 
 import (
 	context "context"
-	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -31,14 +30,14 @@ type Category struct {
 	unknownFields protoimpl.UnknownFields
 
 	ID       int32  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	Name     string `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Slug     string `protobuf:"bytes,2,opt,name=Slug,proto3" json:"Slug,omitempty"`
 	ParentID int32  `protobuf:"varint,3,opt,name=ParentID,proto3" json:"ParentID,omitempty"`
 }
 
 func (x *Category) Reset() {
 	*x = Category{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[0]
+		mi := &file_category_service_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -51,7 +50,7 @@ func (x *Category) String() string {
 func (*Category) ProtoMessage() {}
 
 func (x *Category) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[0]
+	mi := &file_category_service_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +63,7 @@ func (x *Category) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Category.ProtoReflect.Descriptor instead.
 func (*Category) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{0}
+	return file_category_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Category) GetID() int32 {
@@ -74,9 +73,9 @@ func (x *Category) GetID() int32 {
 	return 0
 }
 
-func (x *Category) GetName() string {
+func (x *Category) GetSlug() string {
 	if x != nil {
-		return x.Name
+		return x.Slug
 	}
 	return ""
 }
@@ -97,7 +96,7 @@ type Empty struct {
 func (x *Empty) Reset() {
 	*x = Empty{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[1]
+		mi := &file_category_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -110,7 +109,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[1]
+	mi := &file_category_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +122,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{1}
+	return file_category_service_proto_rawDescGZIP(), []int{1}
 }
 
 //CREATE CATEGORY
@@ -132,14 +131,14 @@ type CreateCategoryRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name     string `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Slug     string `protobuf:"bytes,1,opt,name=Slug,proto3" json:"Slug,omitempty"`
 	ParentID int32  `protobuf:"varint,2,opt,name=ParentID,proto3" json:"ParentID,omitempty"`
 }
 
 func (x *CreateCategoryRequest) Reset() {
 	*x = CreateCategoryRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[2]
+		mi := &file_category_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -152,7 +151,7 @@ func (x *CreateCategoryRequest) String() string {
 func (*CreateCategoryRequest) ProtoMessage() {}
 
 func (x *CreateCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[2]
+	mi := &file_category_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -165,12 +164,12 @@ func (x *CreateCategoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCategoryRequest.ProtoReflect.Descriptor instead.
 func (*CreateCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{2}
+	return file_category_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateCategoryRequest) GetName() string {
+func (x *CreateCategoryRequest) GetSlug() string {
 	if x != nil {
-		return x.Name
+		return x.Slug
 	}
 	return ""
 }
@@ -193,7 +192,7 @@ type CreateCategoryResponse struct {
 func (x *CreateCategoryResponse) Reset() {
 	*x = CreateCategoryResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[3]
+		mi := &file_category_service_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -206,7 +205,7 @@ func (x *CreateCategoryResponse) String() string {
 func (*CreateCategoryResponse) ProtoMessage() {}
 
 func (x *CreateCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[3]
+	mi := &file_category_service_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -219,7 +218,7 @@ func (x *CreateCategoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCategoryResponse.ProtoReflect.Descriptor instead.
 func (*CreateCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{3}
+	return file_category_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateCategoryResponse) GetCategory() *Category {
@@ -235,13 +234,14 @@ type UpdateCategoryRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Category *Category `protobuf:"bytes,1,opt,name=Category,proto3" json:"Category,omitempty"`
+	Slug     string    `protobuf:"bytes,1,opt,name=Slug,proto3" json:"Slug,omitempty"`
+	Category *Category `protobuf:"bytes,2,opt,name=Category,proto3" json:"Category,omitempty"`
 }
 
 func (x *UpdateCategoryRequest) Reset() {
 	*x = UpdateCategoryRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[4]
+		mi := &file_category_service_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -254,7 +254,7 @@ func (x *UpdateCategoryRequest) String() string {
 func (*UpdateCategoryRequest) ProtoMessage() {}
 
 func (x *UpdateCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[4]
+	mi := &file_category_service_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +267,14 @@ func (x *UpdateCategoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCategoryRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{4}
+	return file_category_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateCategoryRequest) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
 }
 
 func (x *UpdateCategoryRequest) GetCategory() *Category {
@@ -288,7 +295,7 @@ type UpdateCategoryResponse struct {
 func (x *UpdateCategoryResponse) Reset() {
 	*x = UpdateCategoryResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[5]
+		mi := &file_category_service_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -301,7 +308,7 @@ func (x *UpdateCategoryResponse) String() string {
 func (*UpdateCategoryResponse) ProtoMessage() {}
 
 func (x *UpdateCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[5]
+	mi := &file_category_service_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -314,7 +321,7 @@ func (x *UpdateCategoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCategoryResponse.ProtoReflect.Descriptor instead.
 func (*UpdateCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{5}
+	return file_category_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateCategoryResponse) GetCategory() *Category {
@@ -330,13 +337,13 @@ type DeleteCategoryRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Slug string `protobuf:"bytes,1,opt,name=Slug,proto3" json:"Slug,omitempty"`
 }
 
 func (x *DeleteCategoryRequest) Reset() {
 	*x = DeleteCategoryRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[6]
+		mi := &file_category_service_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -349,7 +356,7 @@ func (x *DeleteCategoryRequest) String() string {
 func (*DeleteCategoryRequest) ProtoMessage() {}
 
 func (x *DeleteCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[6]
+	mi := &file_category_service_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -362,12 +369,12 @@ func (x *DeleteCategoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCategoryRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{6}
+	return file_category_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *DeleteCategoryRequest) GetName() string {
+func (x *DeleteCategoryRequest) GetSlug() string {
 	if x != nil {
-		return x.Name
+		return x.Slug
 	}
 	return ""
 }
@@ -383,7 +390,7 @@ type DeleteCategoryResponse struct {
 func (x *DeleteCategoryResponse) Reset() {
 	*x = DeleteCategoryResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[7]
+		mi := &file_category_service_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -396,7 +403,7 @@ func (x *DeleteCategoryResponse) String() string {
 func (*DeleteCategoryResponse) ProtoMessage() {}
 
 func (x *DeleteCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[7]
+	mi := &file_category_service_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -409,7 +416,7 @@ func (x *DeleteCategoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCategoryResponse.ProtoReflect.Descriptor instead.
 func (*DeleteCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{7}
+	return file_category_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DeleteCategoryResponse) GetResult() string {
@@ -425,13 +432,13 @@ type GetCategoryRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Slug string `protobuf:"bytes,1,opt,name=Slug,proto3" json:"Slug,omitempty"`
 }
 
 func (x *GetCategoryRequest) Reset() {
 	*x = GetCategoryRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[8]
+		mi := &file_category_service_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -444,7 +451,7 @@ func (x *GetCategoryRequest) String() string {
 func (*GetCategoryRequest) ProtoMessage() {}
 
 func (x *GetCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[8]
+	mi := &file_category_service_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -457,12 +464,12 @@ func (x *GetCategoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCategoryRequest.ProtoReflect.Descriptor instead.
 func (*GetCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{8}
+	return file_category_service_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetCategoryRequest) GetName() string {
+func (x *GetCategoryRequest) GetSlug() string {
 	if x != nil {
-		return x.Name
+		return x.Slug
 	}
 	return ""
 }
@@ -478,7 +485,7 @@ type GetCategoryResponse struct {
 func (x *GetCategoryResponse) Reset() {
 	*x = GetCategoryResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[9]
+		mi := &file_category_service_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -491,7 +498,7 @@ func (x *GetCategoryResponse) String() string {
 func (*GetCategoryResponse) ProtoMessage() {}
 
 func (x *GetCategoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[9]
+	mi := &file_category_service_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -504,7 +511,7 @@ func (x *GetCategoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCategoryResponse.ProtoReflect.Descriptor instead.
 func (*GetCategoryResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{9}
+	return file_category_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetCategoryResponse) GetCategory() *Category {
@@ -526,7 +533,7 @@ type GetAllCategoriesRequest struct {
 func (x *GetAllCategoriesRequest) Reset() {
 	*x = GetAllCategoriesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[10]
+		mi := &file_category_service_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -539,7 +546,7 @@ func (x *GetAllCategoriesRequest) String() string {
 func (*GetAllCategoriesRequest) ProtoMessage() {}
 
 func (x *GetAllCategoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[10]
+	mi := &file_category_service_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -552,7 +559,7 @@ func (x *GetAllCategoriesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllCategoriesRequest.ProtoReflect.Descriptor instead.
 func (*GetAllCategoriesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{10}
+	return file_category_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetAllCategoriesRequest) GetEmpty() *Empty {
@@ -573,7 +580,7 @@ type GetAllCategoriesResponse struct {
 func (x *GetAllCategoriesResponse) Reset() {
 	*x = GetAllCategoriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[11]
+		mi := &file_category_service_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -586,7 +593,7 @@ func (x *GetAllCategoriesResponse) String() string {
 func (*GetAllCategoriesResponse) ProtoMessage() {}
 
 func (x *GetAllCategoriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[11]
+	mi := &file_category_service_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -599,7 +606,7 @@ func (x *GetAllCategoriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllCategoriesResponse.ProtoReflect.Descriptor instead.
 func (*GetAllCategoriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{11}
+	return file_category_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetAllCategoriesResponse) GetCategory() []*Category {
@@ -615,13 +622,13 @@ type GetSubCategoriesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Slug string `protobuf:"bytes,1,opt,name=Slug,proto3" json:"Slug,omitempty"`
 }
 
 func (x *GetSubCategoriesRequest) Reset() {
 	*x = GetSubCategoriesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[12]
+		mi := &file_category_service_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -634,7 +641,7 @@ func (x *GetSubCategoriesRequest) String() string {
 func (*GetSubCategoriesRequest) ProtoMessage() {}
 
 func (x *GetSubCategoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[12]
+	mi := &file_category_service_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -647,12 +654,12 @@ func (x *GetSubCategoriesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSubCategoriesRequest.ProtoReflect.Descriptor instead.
 func (*GetSubCategoriesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{12}
+	return file_category_service_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *GetSubCategoriesRequest) GetName() string {
+func (x *GetSubCategoriesRequest) GetSlug() string {
 	if x != nil {
-		return x.Name
+		return x.Slug
 	}
 	return ""
 }
@@ -668,7 +675,7 @@ type GetSubCategoriesResponse struct {
 func (x *GetSubCategoriesResponse) Reset() {
 	*x = GetSubCategoriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_category_service_proto_msgTypes[13]
+		mi := &file_category_service_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -681,7 +688,7 @@ func (x *GetSubCategoriesResponse) String() string {
 func (*GetSubCategoriesResponse) ProtoMessage() {}
 
 func (x *GetSubCategoriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_category_service_proto_msgTypes[13]
+	mi := &file_category_service_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +701,7 @@ func (x *GetSubCategoriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSubCategoriesResponse.ProtoReflect.Descriptor instead.
 func (*GetSubCategoriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_category_service_proto_rawDescGZIP(), []int{13}
+	return file_category_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetSubCategoriesResponse) GetCategory() []*Category {
@@ -704,30 +711,29 @@ func (x *GetSubCategoriesResponse) GetCategory() []*Category {
 	return nil
 }
 
-var File_proto_category_service_proto protoreflect.FileDescriptor
+var File_category_service_proto protoreflect.FileDescriptor
 
-var file_proto_category_service_proto_rawDesc = []byte{
-	0x0a, 0x1c, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
-	0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x4a, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12,
-	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x49, 0x44, 0x12,
-	0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e,
-	0x61, 0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x22,
-	0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x47, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49,
-	0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49,
-	0x44, 0x22, 0x45, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67,
-	0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x43,
-	0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08,
-	0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x44, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x2b, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x01, 0x20,
+var file_category_service_proto_rawDesc = []byte{
+	0x0a, 0x16, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
+	0x4a, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x0e, 0x0a, 0x02, 0x49,
+	0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x49, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x53,
+	0x6c, 0x75, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c, 0x75, 0x67, 0x12,
+	0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x22, 0x07, 0x0a, 0x05, 0x45,
+	0x6d, 0x70, 0x74, 0x79, 0x22, 0x47, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61,
+	0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a,
+	0x04, 0x53, 0x6c, 0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c, 0x75,
+	0x67, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x22, 0x45, 0x0a,
+	0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67,
+	0x6f, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x43, 0x61, 0x74, 0x65,
+	0x67, 0x6f, 0x72, 0x79, 0x22, 0x58, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61,
+	0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a,
+	0x04, 0x53, 0x6c, 0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c, 0x75,
+	0x67, 0x12, 0x2b, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x02, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x61, 0x74, 0x65,
 	0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x45,
 	0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
@@ -736,13 +742,13 @@ var file_proto_category_service_proto_rawDesc = []byte{
 	0x74, 0x6f, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x43, 0x61, 0x74,
 	0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x2b, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43,
 	0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61,
-	0x6d, 0x65, 0x22, 0x30, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65,
+	0x0a, 0x04, 0x53, 0x6c, 0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c,
+	0x75, 0x67, 0x22, 0x30, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65,
 	0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06,
 	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x52, 0x65,
 	0x73, 0x75, 0x6c, 0x74, 0x22, 0x28, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67,
-	0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61,
-	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x42,
+	0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x53, 0x6c,
+	0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c, 0x75, 0x67, 0x22, 0x42,
 	0x0a, 0x13, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
 	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
@@ -757,64 +763,57 @@ var file_proto_category_service_proto_rawDesc = []byte{
 	0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
 	0x52, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x22, 0x2d, 0x0a, 0x17, 0x47, 0x65,
 	0x74, 0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x47, 0x0a, 0x18, 0x47, 0x65, 0x74,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x53, 0x6c, 0x75, 0x67, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x53, 0x6c, 0x75, 0x67, 0x22, 0x47, 0x0a, 0x18, 0x47, 0x65, 0x74,
 	0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73,
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
 	0x79, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
 	0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f,
-	0x72, 0x79, 0x32, 0xab, 0x04, 0x0a, 0x0f, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x63, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x72, 0x79, 0x32, 0xb2, 0x03, 0x0a, 0x0f, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4f, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x1c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43,
 	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0e, 0x22, 0x0c, 0x61,
-	0x70, 0x69, 0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x6a, 0x0a, 0x0e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x1c, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65,
-	0x67, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f,
-	0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x15, 0x1a, 0x13, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
-	0x2f, 0x7b, 0x4e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0x6a, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74,
 	0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x1c, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
+	0x6f, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x2a, 0x13,
-	0x61, 0x70, 0x69, 0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x2f, 0x7b, 0x4e, 0x61,
-	0x6d, 0x65, 0x7d, 0x12, 0x69, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74,
-	0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x12, 0x1e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
-	0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
-	0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0e,
-	0x12, 0x0c, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x70,
-	0x0a, 0x10, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69,
-	0x65, 0x73, 0x12, 0x1e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75,
-	0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x75,
-	0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x61, 0x70, 0x69,
-	0x2f, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x2f, 0x7b, 0x4e, 0x61, 0x6d, 0x65, 0x7d,
-	0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x1c, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
+	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x55, 0x0a, 0x10, 0x47, 0x65, 0x74,
+	0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x12, 0x1e, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74, 0x65,
+	0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x61, 0x74, 0x65,
+	0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x55, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x72, 0x69, 0x65, 0x73, 0x12, 0x1e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74,
+	0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74,
+	0x53, 0x75, 0x62, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_proto_category_service_proto_rawDescOnce sync.Once
-	file_proto_category_service_proto_rawDescData = file_proto_category_service_proto_rawDesc
+	file_category_service_proto_rawDescOnce sync.Once
+	file_category_service_proto_rawDescData = file_category_service_proto_rawDesc
 )
 
-func file_proto_category_service_proto_rawDescGZIP() []byte {
-	file_proto_category_service_proto_rawDescOnce.Do(func() {
-		file_proto_category_service_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_category_service_proto_rawDescData)
+func file_category_service_proto_rawDescGZIP() []byte {
+	file_category_service_proto_rawDescOnce.Do(func() {
+		file_category_service_proto_rawDescData = protoimpl.X.CompressGZIP(file_category_service_proto_rawDescData)
 	})
-	return file_proto_category_service_proto_rawDescData
+	return file_category_service_proto_rawDescData
 }
 
-var file_proto_category_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
-var file_proto_category_service_proto_goTypes = []interface{}{
+var file_category_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_category_service_proto_goTypes = []interface{}{
 	(*Category)(nil),                 // 0: proto.Category
 	(*Empty)(nil),                    // 1: proto.Empty
 	(*CreateCategoryRequest)(nil),    // 2: proto.CreateCategoryRequest
@@ -830,7 +829,7 @@ var file_proto_category_service_proto_goTypes = []interface{}{
 	(*GetSubCategoriesRequest)(nil),  // 12: proto.GetSubCategoriesRequest
 	(*GetSubCategoriesResponse)(nil), // 13: proto.GetSubCategoriesResponse
 }
-var file_proto_category_service_proto_depIdxs = []int32{
+var file_category_service_proto_depIdxs = []int32{
 	0,  // 0: proto.CreateCategoryResponse.Category:type_name -> proto.Category
 	0,  // 1: proto.UpdateCategoryRequest.Category:type_name -> proto.Category
 	0,  // 2: proto.UpdateCategoryResponse.Category:type_name -> proto.Category
@@ -855,13 +854,13 @@ var file_proto_category_service_proto_depIdxs = []int32{
 	0,  // [0:7] is the sub-list for field type_name
 }
 
-func init() { file_proto_category_service_proto_init() }
-func file_proto_category_service_proto_init() {
-	if File_proto_category_service_proto != nil {
+func init() { file_category_service_proto_init() }
+func file_category_service_proto_init() {
+	if File_category_service_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_proto_category_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Category); i {
 			case 0:
 				return &v.state
@@ -873,7 +872,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Empty); i {
 			case 0:
 				return &v.state
@@ -885,7 +884,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateCategoryRequest); i {
 			case 0:
 				return &v.state
@@ -897,7 +896,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateCategoryResponse); i {
 			case 0:
 				return &v.state
@@ -909,7 +908,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateCategoryRequest); i {
 			case 0:
 				return &v.state
@@ -921,7 +920,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateCategoryResponse); i {
 			case 0:
 				return &v.state
@@ -933,7 +932,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteCategoryRequest); i {
 			case 0:
 				return &v.state
@@ -945,7 +944,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteCategoryResponse); i {
 			case 0:
 				return &v.state
@@ -957,7 +956,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCategoryRequest); i {
 			case 0:
 				return &v.state
@@ -969,7 +968,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCategoryResponse); i {
 			case 0:
 				return &v.state
@@ -981,7 +980,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetAllCategoriesRequest); i {
 			case 0:
 				return &v.state
@@ -993,7 +992,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetAllCategoriesResponse); i {
 			case 0:
 				return &v.state
@@ -1005,7 +1004,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetSubCategoriesRequest); i {
 			case 0:
 				return &v.state
@@ -1017,7 +1016,7 @@ func file_proto_category_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_category_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_category_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetSubCategoriesResponse); i {
 			case 0:
 				return &v.state
@@ -1034,20 +1033,20 @@ func file_proto_category_service_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_category_service_proto_rawDesc,
+			RawDescriptor: file_category_service_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_category_service_proto_goTypes,
-		DependencyIndexes: file_proto_category_service_proto_depIdxs,
-		MessageInfos:      file_proto_category_service_proto_msgTypes,
+		GoTypes:           file_category_service_proto_goTypes,
+		DependencyIndexes: file_category_service_proto_depIdxs,
+		MessageInfos:      file_category_service_proto_msgTypes,
 	}.Build()
-	File_proto_category_service_proto = out.File
-	file_proto_category_service_proto_rawDesc = nil
-	file_proto_category_service_proto_goTypes = nil
-	file_proto_category_service_proto_depIdxs = nil
+	File_category_service_proto = out.File
+	file_category_service_proto_rawDesc = nil
+	file_category_service_proto_goTypes = nil
+	file_category_service_proto_depIdxs = nil
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1271,5 +1270,5 @@ var _CategoryService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/category_service.proto",
+	Metadata: "category_service.proto",
 }

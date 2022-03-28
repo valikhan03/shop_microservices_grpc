@@ -20,42 +20,31 @@ func NewCategoryRepository(db *sqlx.DB) *CategoryRepository {
 	}
 }
 
-func (r *CategoryRepository) CreateCategory(ctx context.Context, parent_id int32, name string) (*pb.Category, error){
-	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
+func (r *CategoryRepository) CreateCategory(ctx context.Context, parent_id int32, slug string) (*pb.Category, error){
+	
+	res, err := r.database.Exec("INSERT INTO category (slug, parent_id) VALUES ($1, $2) RETURNING id", slug, parent_id)
 	if err != nil{
 		log.Println(err)
 		return nil, err
 	}
-
-	rows, err := tx.Query("INSERT INTO category (name, parent_id) VALUES ($1, $2) RETURNING id", name, parent_id)
-	if err != nil{
-		log.Println(err)
-		return nil, err
-	}
-
-	var id int32
-	err = rows.Scan(&id)
-	if err != nil{
-		log.Fatal(err)
-	}
-
+	id, err := res.LastInsertId()
 	category := &pb.Category{
-		ID: id,
-		Name: name,
+		ID: int32(id),
+		Slug: slug,
 		ParentID: parent_id,
 	}
 
 	return category, nil
 }
 
-func (r *CategoryRepository) UpdateCategory(ctx context.Context, id int32, name string, parent_id int32) (error){
+func (r *CategoryRepository) UpdateCategory(ctx context.Context, id int32, slug string, parent_id int32) (error){
 	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
 	if err != nil{
 		log.Println(err)
 		return err
 	}
 
-	_, err = tx.Exec("UPADTE category SET name=$1, parent_id=$2 WHERE id=$3", name, parent_id, id)
+	_, err = tx.Exec("UPADTE category SET slug=$1, parent_id=$2 WHERE id=$3", slug, parent_id, id)
 	if err != nil{
 		log.Println(err)
 		return err
@@ -64,14 +53,14 @@ func (r *CategoryRepository) UpdateCategory(ctx context.Context, id int32, name 
 	return nil
 }
 
-func (r *CategoryRepository) DeleteCategory(ctx context.Context, name string) (error){
+func (r *CategoryRepository) DeleteCategory(ctx context.Context, slug string) (error){
 	tx, err := r.database.BeginTxx(ctx, &sql.TxOptions{})
 	if err != nil{
 		log.Println(err)
 		return err
 	}
 
-	_, err = tx.Exec("DELETE FROM category WHERE name=$1", name)
+	_, err = tx.Exec("DELETE FROM category WHERE slug=$1", slug)
 	if err != nil{
 		log.Println(err)
 		return err
@@ -93,6 +82,6 @@ func (r *CategoryRepository) GetAllCategories(ctx context.Context) ([]*pb.Catego
 	return nil, nil
 }
 
-func (r *CategoryRepository) GetSubCategories(ctx context.Context, name string) ([]*pb.Category, error){
+func (r *CategoryRepository) GetSubCategories(ctx context.Context, slug string) ([]*pb.Category, error){
 	return nil, nil
 }
