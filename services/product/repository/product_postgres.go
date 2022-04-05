@@ -2,14 +2,13 @@ package repository
 
 import (
 	"log"
-	"product_service/pb"
-
+	"strings"
+	"product_service/models"
 	"github.com/jmoiron/sqlx"
 )
 
 type ProductRepository struct {
 	db *sqlx.DB
-	c *sqlx.Conn
 }
 
 func NewProductRepository(db *sqlx.DB) *ProductRepository {
@@ -18,72 +17,58 @@ func NewProductRepository(db *sqlx.DB) *ProductRepository {
 	}
 }
 
-func (r *ProductRepository) CreateProduct(name string, category string, price uint32, slug string) (*pb.Product, error) {
-	var id int64
-	rows, err := r.db.Query("INSERT INTO products (name, category, price, slug) VALUES ($1, $2, $3, $4)", name, category, price, slug)
-	if err !=nil{
-		return nil, err
-	}
-	rows.Scan(&id)
-	product := &pb.Product{
-		Name: name,
-		Category: category,
-		Price: price,
-		Slug: slug,
-	}
-
-	return product, nil
-}
-
-func (r *ProductRepository) ChangeProduct(id int64, name string, category string, price uint32, slug string) (*pb.Product, error) {
-	_, err := r.db.Exec("UPDATE products SET name=$1, category=$2, price=$3, slug=$4 WHERE id=$5", 
-		name, category, price, slug, id)
-	if err != nil{
-		log.Println(err)
-		return nil, err
-	}
-
-	product := &pb.Product{
-		Id: id,
-		Name: name,
-		Category: category,
-		Price: price,
-		Slug: slug,
-	}
-
-	return product, nil
-}
-
-func (r *ProductRepository) DeleteProduct(slug string) bool {
-	return false
-}
-
-type Product struct{
-	Id int64
-    Name string
-    Category string
-    Price uint32 
-    Slug string
-}
-
-func (r *ProductRepository) GetProduct(slug string) (*pb.Product, error) {
-	var product Product
-	row, err := r.db.Query("SELECT * FROM products WHERE slug=$1 LIMIT 1", slug)
-	if err != nil{
-		log.Println(err)
-		return nil, err
-	}
-	row.Scan(&product)
-	resultProduct := &pb.Product{
-		Id: product.Id,
-		Name: product.Name,
-		Price: product.Price,
-		Category: product.Category,
-		Slug: product.Slug,
-	}
+func (r *ProductRepository) CreateProduct(title string, category string, price uint64, description string) (slug string, err error) {
 	
-	return resultProduct, nil
+	slug = generateSlug(title) 
+	query := "INSERT INTO products (slug, title, price, description, category_id) VALUES ($1, $2, $3, $4, SELECT id FROM category WHERE slug=$5)"
+	_, err = r.db.Exec(query, slug, title, price, description, category)
+	if err != nil{
+		log.Println(err)
+		return "", err
+	}
+
+	return slug, nil
+
 }
+
+func (r *ProductRepository) ChangeProduct(slug string, title string, category string, price uint64, description string) (product *models.Product, err error) {
+	query := "UPDATE products (title, category_id, price, description) SET ()"
+	_, err = r.db.Exec(query, title, category, price, description)
+	if err != nil{
+		log.Println(err)
+		return
+	}
+	product = &models.Product{
+		Slug: slug,
+		Title: title,
+		Category: "",
+		Price: price,
+		Description: description,
+	}
+
+	return
+}
+
+func (r *ProductRepository) DeleteProduct(slug string) (result bool) {
+	result = false
+	_, err := r.db.Exec("DELETE from products WHERE slug=$1", slug)
+	if err != nil{
+		log.Println(err)
+		return
+	}
+	result = true
+	return
+}
+
+func (r *ProductRepository) GetProduct(slug string) (product *models.Product, err error) {
+	return
+}
+func (r *ProductRepository) SearchProduct(title string, category string, minprice int64, maxprice int64) (product *models.Product, err error){
+	return
+}
+
+
+/*
 
 func (r *ProductRepository) SearchProduct(filter pb.Filter, escape_id int64) (*pb.Product, error) {
 	var product Product
@@ -103,4 +88,19 @@ func (r *ProductRepository) SearchProduct(filter pb.Filter, escape_id int64) (*p
 	}
 	
 	return resultProduct, nil
+}
+*/
+
+
+func generateSlug(title string) string {
+	bannedSymbols := []string{".", ",", "/", "\\", "|", "?", "=", "+", "*"}
+	for _, s := range bannedSymbols{
+		if strings.Contains(title, s){
+			strings.Replace(title, s, "", -1)
+		}
+	}
+
+	slug := strings.Replace(strings.ToLower(title), " ", "_", -1)
+
+	return slug
 }

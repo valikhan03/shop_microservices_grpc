@@ -22,7 +22,7 @@ type ProductServiceClient interface {
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
-	SearchProduct(ctx context.Context, in *SearchProductRequest, opts ...grpc.CallOption) (ProductService_SearchProductClient, error)
+	SearchProduct(ctx context.Context, in *SearchProductRequest, opts ...grpc.CallOption) (*SearchProductResponse, error)
 }
 
 type productServiceClient struct {
@@ -69,36 +69,13 @@ func (c *productServiceClient) GetProduct(ctx context.Context, in *GetProductReq
 	return out, nil
 }
 
-func (c *productServiceClient) SearchProduct(ctx context.Context, in *SearchProductRequest, opts ...grpc.CallOption) (ProductService_SearchProductClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[0], "/proto.ProductService/SearchProduct", opts...)
+func (c *productServiceClient) SearchProduct(ctx context.Context, in *SearchProductRequest, opts ...grpc.CallOption) (*SearchProductResponse, error) {
+	out := new(SearchProductResponse)
+	err := c.cc.Invoke(ctx, "/proto.ProductService/SearchProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &productServiceSearchProductClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type ProductService_SearchProductClient interface {
-	Recv() (*SearchProductResponse, error)
-	grpc.ClientStream
-}
-
-type productServiceSearchProductClient struct {
-	grpc.ClientStream
-}
-
-func (x *productServiceSearchProductClient) Recv() (*SearchProductResponse, error) {
-	m := new(SearchProductResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // ProductServiceServer is the server API for ProductService service.
@@ -109,7 +86,7 @@ type ProductServiceServer interface {
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
-	SearchProduct(*SearchProductRequest, ProductService_SearchProductServer) error
+	SearchProduct(context.Context, *SearchProductRequest) (*SearchProductResponse, error)
 	//mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -129,8 +106,8 @@ func (UnimplementedProductServiceServer) DeleteProduct(context.Context, *DeleteP
 func (UnimplementedProductServiceServer) GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
 }
-func (UnimplementedProductServiceServer) SearchProduct(*SearchProductRequest, ProductService_SearchProductServer) error {
-	return status.Errorf(codes.Unimplemented, "method SearchProduct not implemented")
+func (UnimplementedProductServiceServer) SearchProduct(context.Context, *SearchProductRequest) (*SearchProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchProduct not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 
@@ -217,25 +194,22 @@ func _ProductService_GetProduct_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_SearchProduct_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SearchProductRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _ProductService_SearchProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(ProductServiceServer).SearchProduct(m, &productServiceSearchProductServer{stream})
-}
-
-type ProductService_SearchProductServer interface {
-	Send(*SearchProductResponse) error
-	grpc.ServerStream
-}
-
-type productServiceSearchProductServer struct {
-	grpc.ServerStream
-}
-
-func (x *productServiceSearchProductServer) Send(m *SearchProductResponse) error {
-	return x.ServerStream.SendMsg(m)
+	if interceptor == nil {
+		return srv.(ProductServiceServer).SearchProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.ProductService/SearchProduct",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).SearchProduct(ctx, req.(*SearchProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
@@ -261,13 +235,11 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetProduct",
 			Handler:    _ProductService_GetProduct_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "SearchProduct",
-			Handler:       _ProductService_SearchProduct_Handler,
-			ServerStreams: true,
+			MethodName: "SearchProduct",
+			Handler:    _ProductService_SearchProduct_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "product_service.proto",
 }

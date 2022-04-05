@@ -16,66 +16,75 @@ func NewProductService(r repository.Repository) *ProductService {
 	}
 }
 
+
 func (s *ProductService) CreateProduct(ctx context.Context, req *pb.CreateProductRequest) (*pb.CreateProductResponse, error) {
-	product, err := s.repository.CreateProduct(req.Name, req.Category, req.Price, req.Slug)
-	if err != nil {
+	slug, err := s.repository.CreateProduct(req.Title, req.Category, req.Price, req.Description)
+	if err != nil{
 		return nil, err
 	}
 
-	res := &pb.CreateProductResponse{
-		Product: product,
-	}
+	res := &pb.CreateProductResponse{ Product: &pb.Product{
+		Slug: slug, 
+		Title: req.Title,
+		Category: req.Category,
+		Price: req.Price,
+		Description: req.Description,
+
+	}}
 
 	return res, nil
 }
 
 func (s *ProductService) UpdateProduct(ctx context.Context, req *pb.UpdateProductRequest) (*pb.UpdateProductResponse, error) {
-	product, err := s.repository.ChangeProduct(req.Product.Id, req.Product.Name, req.Product.Category, req.Product.Price, req.Product.Slug)
-	if err != nil {
+	product, err := s.repository.ChangeProduct(req.Product.Slug, req.Product.Title, req.Product.Category, req.Product.Price, req.Product.Description)
+	if err != nil{
 		return nil, err
 	}
 
-	res := &pb.UpdateProductResponse{
-		Product: product,
-	}
-
-	return res, nil
+	return &pb.UpdateProductResponse{ Product: &pb.Product{
+		Slug: product.Slug,
+		Title: product.Title,
+		Category: product.Category,
+		Price: product.Price,
+		Description: product.Description,
+	}}, nil
 }
 
-func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProductRequest) (*pb.DeleteProductResponse, error) {
-	status := s.repository.DeleteProduct(req.Slug)
-	res := &pb.DeleteProductResponse{
-		Status: status,
+func (s *ProductService) DeleteProduct(ctx context.Context, req *pb.DeleteProductRequest) (*pb.DeleteProductResponse, error){
+	res := &pb.DeleteProductResponse{}
+	if s.repository.DeleteProduct(req.Slug){
+		res.Result = "DELETED" 
+		return res, nil
+	}else{
+		res.Result = "NOT DELETED"
+		return res, nil
 	}
-
-	return res, nil
 }
 
-func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.GetProductResponse, error) {
+func (s *ProductService) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.GetProductResponse, error){
 	product, err := s.repository.GetProduct(req.Slug)
-	if err != nil {
+	if err != nil{
 		return nil, err
 	}
 
-	res := &pb.GetProductResponse{
-		Product: product,
-	}
+	res := &pb.GetProductResponse{Product: &pb.Product{
+		Slug: product.Slug,
+		Title: product.Title,
+		Category: product.Category,
+		Price: product.Price,
+		Description: product.Description,
+	}}
 
 	return res, nil
 }
 
-func (s *ProductService) SearchProduct(req *pb.SearchProductRequest, stream pb.ProductService_SearchProductServer) error {
-	var last_id int64 = 0
-	for {
-		product, err := s.repository.SearchProduct(*req.GetFilter(), last_id)
-		if err != nil {
-			return err
-		}
-		last_id = product.Id
-		err = stream.Send(&pb.SearchProductResponse{Product: product})
-		if err != nil {
-			return err
-		}
-	}
+func (s *ProductService) SearchProduct(context.Context, *pb.SearchProductRequest) (*pb.SearchProductResponse, error){
+
+	
+	return nil, nil
 }
+
+
+
+
 
