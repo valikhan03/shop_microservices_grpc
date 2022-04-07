@@ -35,29 +35,12 @@
         },
         "parameters": [
           {
-            "name": "Name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Category",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Price",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "Slug",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoCreateProductRequest"
+            }
           }
         ],
         "tags": [
@@ -93,30 +76,12 @@
         },
         "parameters": [
           {
-            "name": "Filter.Name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Filter.Category",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Filter.MinPrice",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "Filter.MaxPrice",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoSearchProductRequest"
+            }
           }
         ],
         "tags": [
@@ -205,36 +170,18 @@
             "type": "string"
           },
           {
-            "name": "Product.Id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "Product.Name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Product.Category",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "Product.Price",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "Product.Slug",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Product": {
+                  "$ref": "#/definitions/protoProduct"
+                }
+              },
+              "title": "UPDATE PRODUCT"
+            }
           }
         ],
         "tags": [
@@ -244,6 +191,25 @@
     }
   },
   "definitions": {
+    "protoCreateProductRequest": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "Price": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "title": "CREATE PRODUCT"
+    },
     "protoCreateProductResponse": {
       "type": "object",
       "properties": {
@@ -255,8 +221,8 @@
     "protoDeleteProductResponse": {
       "type": "object",
       "properties": {
-        "Status": {
-          "type": "boolean"
+        "Result": {
+          "type": "string"
         }
       }
     },
@@ -270,12 +236,12 @@
           "type": "string"
         },
         "MinPrice": {
-          "type": "integer",
-          "format": "int32"
+          "type": "string",
+          "format": "uint64"
         },
         "MaxPrice": {
-          "type": "integer",
-          "format": "int32"
+          "type": "string",
+          "format": "uint64"
         }
       },
       "title": "FILTER"
@@ -291,31 +257,42 @@
     "protoProduct": {
       "type": "object",
       "properties": {
-        "Id": {
-          "type": "string",
-          "format": "int64"
+        "Slug": {
+          "type": "string"
         },
-        "Name": {
+        "Title": {
           "type": "string"
         },
         "Category": {
           "type": "string"
         },
         "Price": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string",
+          "format": "uint64"
         },
-        "Slug": {
+        "Description": {
           "type": "string"
         }
       },
       "title": "PRODUCT"
     },
+    "protoSearchProductRequest": {
+      "type": "object",
+      "properties": {
+        "Filter": {
+          "$ref": "#/definitions/protoFilter"
+        }
+      },
+      "title": "Search PRODUCT"
+    },
     "protoSearchProductResponse": {
       "type": "object",
       "properties": {
         "Product": {
-          "$ref": "#/definitions/protoProduct"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protoProduct"
+          }
         }
       }
     },

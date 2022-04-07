@@ -58,7 +58,10 @@ func initDB() *sqlx.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	godotenv.Load("database.env")
+	err = godotenv.Load()
+	if err != nil{
+		log.Fatal(err)
+	}
 
 	data_src := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		configs.Host, configs.Port, configs.User, os.Getenv("DB_PASSWORD"), configs.Database, configs.SSLMode)

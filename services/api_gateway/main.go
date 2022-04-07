@@ -12,19 +12,32 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	category_service "api_gw/pb/category_service" // Update
+	category_service "api_gw/pb/category_service" 
+	product_service "api_gw/pb/product_service"
 )
 
 func run() error {
 	godotenv.Load("services.env")
+
 	var categoryServiceAddr = fmt.Sprintf("%s:%s", os.Getenv("CATEGORY_SERVICE_HOST"), os.Getenv("CATEGORY_SERVICE_PORT"))
+	var productServiceAddr = fmt.Sprintf("%s:%s", os.Getenv("PRODUCT_SERVICE_HOST"), os.Getenv("PRODUCT_SERVICE_PORT"))
+	
+	
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+
+
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	
 	err := category_service.RegisterCategoryServiceHandlerFromEndpoint(ctx, mux, categoryServiceAddr, opts)
+	if err != nil {
+		return err
+	}
+
+	err = product_service.RegisterProductServiceHandlerFromEndpoint(ctx, mux, productServiceAddr, opts)
 	if err != nil {
 		return err
 	}

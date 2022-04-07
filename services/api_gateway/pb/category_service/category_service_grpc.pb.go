@@ -11,8 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
-const _ = grpc.SupportPackageIsVersion7
+const _ = grpc.SupportPackageIsVersion6
 
 // CategoryServiceClient is the client API for CategoryService service.
 //
@@ -79,47 +78,36 @@ func (c *categoryServiceClient) GetSubCategories(ctx context.Context, in *GetSub
 }
 
 // CategoryServiceServer is the server API for CategoryService service.
-// All implementations must embed UnimplementedCategoryServiceServer
-// for forward compatibility
 type CategoryServiceServer interface {
 	CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	UpdateCategory(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
 	DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error)
 	GetAllCategories(context.Context, *GetAllCategoriesRequest) (*GetAllCategoriesResponse, error)
 	GetSubCategories(context.Context, *GetSubCategoriesRequest) (*GetSubCategoriesResponse, error)
-	mustEmbedUnimplementedCategoryServiceServer()
 }
 
-// UnimplementedCategoryServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedCategoryServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedCategoryServiceServer struct {
 }
 
-func (UnimplementedCategoryServiceServer) CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error) {
+func (*UnimplementedCategoryServiceServer) CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
 }
-func (UnimplementedCategoryServiceServer) UpdateCategory(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error) {
+func (*UnimplementedCategoryServiceServer) UpdateCategory(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
 }
-func (UnimplementedCategoryServiceServer) DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error) {
+func (*UnimplementedCategoryServiceServer) DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
 }
-func (UnimplementedCategoryServiceServer) GetAllCategories(context.Context, *GetAllCategoriesRequest) (*GetAllCategoriesResponse, error) {
+func (*UnimplementedCategoryServiceServer) GetAllCategories(context.Context, *GetAllCategoriesRequest) (*GetAllCategoriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCategories not implemented")
 }
-func (UnimplementedCategoryServiceServer) GetSubCategories(context.Context, *GetSubCategoriesRequest) (*GetSubCategoriesResponse, error) {
+func (*UnimplementedCategoryServiceServer) GetSubCategories(context.Context, *GetSubCategoriesRequest) (*GetSubCategoriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSubCategories not implemented")
 }
-func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
 
-// UnsafeCategoryServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CategoryServiceServer will
-// result in compilation errors.
-type UnsafeCategoryServiceServer interface {
-	mustEmbedUnimplementedCategoryServiceServer()
-}
-
-func RegisterCategoryServiceServer(s grpc.ServiceRegistrar, srv CategoryServiceServer) {
-	s.RegisterService(&CategoryService_ServiceDesc, srv)
+func RegisterCategoryServiceServer(s *grpc.Server, srv CategoryServiceServer) {
+	s.RegisterService(&_CategoryService_serviceDesc, srv)
 }
 
 func _CategoryService_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -212,10 +200,7 @@ func _CategoryService_GetSubCategories_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-// CategoryService_ServiceDesc is the grpc.ServiceDesc for CategoryService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var CategoryService_ServiceDesc = grpc.ServiceDesc{
+var _CategoryService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "proto.CategoryService",
 	HandlerType: (*CategoryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

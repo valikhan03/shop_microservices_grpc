@@ -63,7 +63,11 @@ func (r *ProductRepository) DeleteProduct(slug string) (result bool) {
 func (r *ProductRepository) GetProduct(slug string) (product *models.Product, err error) {
 	return
 }
-func (r *ProductRepository) SearchProduct(title string, category string, minprice int64, maxprice int64) (product *models.Product, err error){
+func (r *ProductRepository) SearchProduct(title string, category string, minprice int64, maxprice int64) (product []models.Product, err error){
+	
+	query := BuildQuery(title, category, minprice, maxprice)
+	err = r.db.Select(&product, query)
+	
 	return
 }
 
