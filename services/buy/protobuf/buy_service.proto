@@ -9,12 +9,12 @@ option go_package = "/pb";
 
 //BUYING
 message Buying{
-    string ProductLink = 1;
+    string ProductSlug = 1;
     int32 Quantity = 2;
 }
 
 message Receipt{
-    repeated Buying Buyings = 1;
+    repeated Buying AllBuyings = 1;
     int32 Total = 2;
 }
 

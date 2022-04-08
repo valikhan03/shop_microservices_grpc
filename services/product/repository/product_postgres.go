@@ -3,8 +3,11 @@ package repository
 import (
 	"log"
 	"strings"
+	
 	"product_service/models"
+
 	"github.com/jmoiron/sqlx"
+	"github.com/lithammer/shortuuid"
 )
 
 type ProductRepository struct {
@@ -72,28 +75,6 @@ func (r *ProductRepository) SearchProduct(title string, category string, minpric
 }
 
 
-/*
-
-func (r *ProductRepository) SearchProduct(filter pb.Filter, escape_id int64) (*pb.Product, error) {
-	var product Product
-	query := "SELECT * FROM products WHERE name LIKE '%'||$1||'%' AND category=$2 AND price<=$3 AND price>=$4 AND id>$5 LIMIT 1"
-	row, err := r.db.Query(query, filter.Name, filter.Category, filter.MaxPrice, filter.MinPrice, escape_id)
-	if err != nil{
-		log.Println(err)
-		return nil, err
-	}
-	row.Scan(&product)
-	resultProduct := &pb.Product{
-		Id: product.Id,
-		Name: product.Name,
-		Price: product.Price,
-		Category: product.Category,
-		Slug: product.Slug,
-	}
-	
-	return resultProduct, nil
-}
-*/
 
 
 func generateSlug(title string) string {
@@ -105,6 +86,6 @@ func generateSlug(title string) string {
 	}
 
 	slug := strings.Replace(strings.ToLower(title), " ", "_", -1)
-
-	return slug
+	id := shortuuid.New()
+	return (slug + id)
 }
